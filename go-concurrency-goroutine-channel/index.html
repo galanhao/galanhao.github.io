@@ -278,41 +278,23 @@ import_css is not defined
 <script src="/js/events.js"></script>
 <script src="/js/plugins.js"></script>
 
-<!-- partial error: EJS render: ReferenceError: template.ejs:1
- &gt;&gt; 1| &lt;% if(theme.fun_features.typing.enable &amp;&amp; in_scope(theme.fun_features.typing.scope) &amp;&amp; page.subtitle !== false) { %&gt;
-    2|   &lt;%- js_ex(theme.static_prefix.typed, &#39;/typed.min.js&#39;) %&gt;
-    3|   &lt;script&gt;
-    4|     (function (window, document) {
 
-in_scope is not defined
-ReferenceError: template.ejs:1
- &gt;&gt; 1| &lt;% if(theme.fun_features.typing.enable &amp;&amp; in_scope(theme.fun_features.typing.scope) &amp;&amp; page.subtitle !== false) { %&gt;
-    2|   &lt;%- js_ex(theme.static_prefix.typed, &#39;/typed.min.js&#39;) %&gt;
-    3|   &lt;script&gt;
-    4|     (function (window, document) {
+  <script src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js"></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
 
-in_scope is not defined
-	at anonymous (&lt;eval&gt;:10:55(31))
-	at apply (native)
-	at anonymous (&lt;eval&gt;:1:10735(24))
-	at &lt;eval&gt;:1:5334(34)
-	at &lt;eval&gt;:11:19(14)
-	at &lt;eval&gt;:12:3(2)
-	at github.com/galanhao/blog-pilot/pkg/blog-core/renderer/helpers.(*Registry).All.func8 (native)
-	at anonymous (&lt;eval&gt;:25:24(101))
-	at apply (native)
-	at anonymous (&lt;eval&gt;:1:10735(24))
-	at &lt;eval&gt;:1:5334(34)
-	at &lt;eval&gt;:11:19(14)
-	at &lt;eval&gt;:12:3(2)
-	at github.com/galanhao/blog-pilot/pkg/blog-core/renderer/helpers.(*Registry).All.func8 (native)
-	at anonymous (&lt;eval&gt;:85:24(335))
-	at apply (native)
-	at anonymous (&lt;eval&gt;:1:10735(24))
-	at &lt;eval&gt;:1:5334(34)
-	at &lt;eval&gt;:11:19(14)
-	at &lt;eval&gt;:12:3(2)
- -->
+
 
 
   
