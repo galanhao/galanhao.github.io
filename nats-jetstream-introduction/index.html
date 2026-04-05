@@ -25,45 +25,29 @@
   
   <title>NATS JetStream：消息队列的现代选择 - 我的技术博客</title>
 
-  <!-- partial error: EJS render: ReferenceError: template.ejs:3
-    1| &lt;%- css_ex(theme.static_prefix.bootstrap, &#39;css/bootstrap.min.css&#39;) %&gt;
-    2| 
- &gt;&gt; 3| &lt;% var css_snippets = deduplicate(page.css_snippets) %&gt;
-    4| &lt;% for (var idx = 0; idx &lt; css_snippets.length; idx++) { %&gt;
-    5|   &lt;%- css_snippets[idx] %&gt;
-    6| &lt;% } %&gt;
+  <link rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
-deduplicate is not defined
-ReferenceError: template.ejs:3
-    1| &lt;%- css_ex(theme.static_prefix.bootstrap, &#39;css/bootstrap.min.css&#39;) %&gt;
-    2| 
- &gt;&gt; 3| &lt;% var css_snippets = deduplicate(page.css_snippets) %&gt;
-    4| &lt;% for (var idx = 0; idx &lt; css_snippets.length; idx++) { %&gt;
-    5|   &lt;%- css_snippets[idx] %&gt;
-    6| &lt;% } %&gt;
 
-deduplicate is not defined
-	at anonymous (&lt;eval&gt;:13:38(41))
-	at apply (native)
-	at anonymous (&lt;eval&gt;:1:10735(24))
-	at &lt;eval&gt;:1:5334(34)
-	at &lt;eval&gt;:11:19(14)
-	at &lt;eval&gt;:12:3(2)
-	at github.com/galanhao/blog-pilot/pkg/blog-core/renderer/helpers.(*Registry).All.func8 (native)
-	at anonymous (&lt;eval&gt;:92:24(401))
-	at apply (native)
-	at anonymous (&lt;eval&gt;:1:10735(24))
-	at &lt;eval&gt;:1:5334(34)
-	at &lt;eval&gt;:11:19(14)
-	at &lt;eval&gt;:12:3(2)
-	at github.com/galanhao/blog-pilot/pkg/blog-core/renderer/helpers.(*Registry).All.func8 (native)
-	at anonymous (&lt;eval&gt;:22:24(93))
-	at apply (native)
-	at anonymous (&lt;eval&gt;:1:10735(24))
-	at &lt;eval&gt;:1:5334(34)
-	at &lt;eval&gt;:11:19(14)
-	at &lt;eval&gt;:12:3(2)
- -->
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+<link rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
   <script>
 var Fluid = {
   ctx: {
@@ -75,7 +59,8 @@ var Fluid = {
 </script>
   <script src="/js/utils.js"></script>
   <script src="/js/color-schema.js"></script>
-  <!-- partial error: partial &#34;_partials/plugins/analytics.ejs&#34; not found -->
+  
+
 
   
 </head>
@@ -256,25 +241,46 @@ import_css is not defined
   </footer>
 
   <!-- Scripts -->
-  <!-- partial error: EJS render: ReferenceError: template.ejs:19
-    17| &lt;% } %&gt;
-    18| 
- &gt;&gt; 19| &lt;% var script_snippets = deduplicate(page.script_snippets) %&gt;
-    20| &lt;% for (var idx = 0; idx &lt; script_snippets.length; idx++) { %&gt;
-    21|   &lt;%- script_snippets[idx] %&gt;
-    22| &lt;% } %&gt;
+  
+  <script src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js"></script>
+  <link rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
 
-deduplicate is not defined
-ReferenceError: template.ejs:19
-    17| &lt;% } %&gt;
-    18| 
- &gt;&gt; 19| &lt;% var script_snippets = deduplicate(page.script_snippets) %&gt;
-    20| &lt;% for (var idx = 0; idx &lt; script_snippets.length; idx++) { %&gt;
-    21|   &lt;%- script_snippets[idx] %&gt;
-    22| &lt;% } %&gt;
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
 
-deduplicate is not defined
-	at anonymous (&lt;eval&gt;:55:41(211))
+
+<script src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js"></script>
+<script src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js"></script>
+<script src="/js/events.js"></script>
+<script src="/js/plugins.js"></script>
+
+<!-- partial error: EJS render: ReferenceError: template.ejs:1
+ &gt;&gt; 1| &lt;% if(theme.fun_features.typing.enable &amp;&amp; in_scope(theme.fun_features.typing.scope) &amp;&amp; page.subtitle !== false) { %&gt;
+    2|   &lt;%- js_ex(theme.static_prefix.typed, &#39;/typed.min.js&#39;) %&gt;
+    3|   &lt;script&gt;
+    4|     (function (window, document) {
+
+in_scope is not defined
+ReferenceError: template.ejs:1
+ &gt;&gt; 1| &lt;% if(theme.fun_features.typing.enable &amp;&amp; in_scope(theme.fun_features.typing.scope) &amp;&amp; page.subtitle !== false) { %&gt;
+    2|   &lt;%- js_ex(theme.static_prefix.typed, &#39;/typed.min.js&#39;) %&gt;
+    3|   &lt;script&gt;
+    4|     (function (window, document) {
+
+in_scope is not defined
+	at anonymous (&lt;eval&gt;:10:55(31))
+	at apply (native)
+	at anonymous (&lt;eval&gt;:1:10735(24))
+	at &lt;eval&gt;:1:5334(34)
+	at &lt;eval&gt;:11:19(14)
+	at &lt;eval&gt;:12:3(2)
+	at github.com/galanhao/blog-pilot/pkg/blog-core/renderer/helpers.(*Registry).All.func8 (native)
+	at anonymous (&lt;eval&gt;:25:24(101))
 	at apply (native)
 	at anonymous (&lt;eval&gt;:1:10735(24))
 	at &lt;eval&gt;:1:5334(34)
@@ -288,6 +294,23 @@ deduplicate is not defined
 	at &lt;eval&gt;:11:19(14)
 	at &lt;eval&gt;:12:3(2)
  -->
+
+
+  
+    <script src="/js/img-lazyload.js"></script>
+  
+
+
+
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script src="/js/boot.js"></script>
+
 
   
 
