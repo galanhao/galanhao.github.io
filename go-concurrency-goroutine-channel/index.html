@@ -3,25 +3,54 @@
 <!DOCTYPE html>
 <html lang="zh-CN" data-default-color-scheme=auto>
 
-<!-- partial error: EJS render: ReferenceError: template.ejs:48
-    46| 
-    47|   &lt;%- partial(&#39;_partials/css.ejs&#39;) %&gt;
- &gt;&gt; 48|   &lt;%- export_config() %&gt;
-    49|   &lt;%- js_ex(theme.static_prefix.internal_js, &#39;utils.js&#39;) %&gt;
-    50|   &lt;%- js_ex(theme.static_prefix.internal_js, &#39;color-schema.js&#39;) %&gt;
-    51|   &lt;%- partial(&#39;_partials/plugins/analytics.ejs&#39;) %&gt;
 
-export_config is not defined
-ReferenceError: template.ejs:48
-    46| 
-    47|   &lt;%- partial(&#39;_partials/css.ejs&#39;) %&gt;
- &gt;&gt; 48|   &lt;%- export_config() %&gt;
-    49|   &lt;%- js_ex(theme.static_prefix.internal_js, &#39;utils.js&#39;) %&gt;
-    50|   &lt;%- js_ex(theme.static_prefix.internal_js, &#39;color-schema.js&#39;) %&gt;
-    51|   &lt;%- partial(&#39;_partials/plugins/analytics.ejs&#39;) %&gt;
 
-export_config is not defined
-	at anonymous (&lt;eval&gt;:95:30(413))
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="">
+  <meta name="keywords" content="">
+  
+    
+  
+  
+  
+  <title>Go 并发编程：Goroutine 与 Channel 实战 - 我的技术博客</title>
+
+  <!-- partial error: EJS render: ReferenceError: template.ejs:3
+    1| &lt;%- css_ex(theme.static_prefix.bootstrap, &#39;css/bootstrap.min.css&#39;) %&gt;
+    2| 
+ &gt;&gt; 3| &lt;% var css_snippets = deduplicate(page.css_snippets) %&gt;
+    4| &lt;% for (var idx = 0; idx &lt; css_snippets.length; idx++) { %&gt;
+    5|   &lt;%- css_snippets[idx] %&gt;
+    6| &lt;% } %&gt;
+
+deduplicate is not defined
+ReferenceError: template.ejs:3
+    1| &lt;%- css_ex(theme.static_prefix.bootstrap, &#39;css/bootstrap.min.css&#39;) %&gt;
+    2| 
+ &gt;&gt; 3| &lt;% var css_snippets = deduplicate(page.css_snippets) %&gt;
+    4| &lt;% for (var idx = 0; idx &lt; css_snippets.length; idx++) { %&gt;
+    5|   &lt;%- css_snippets[idx] %&gt;
+    6| &lt;% } %&gt;
+
+deduplicate is not defined
+	at anonymous (&lt;eval&gt;:13:38(41))
+	at apply (native)
+	at anonymous (&lt;eval&gt;:1:10735(24))
+	at &lt;eval&gt;:1:5334(34)
+	at &lt;eval&gt;:11:19(14)
+	at &lt;eval&gt;:12:3(2)
+	at github.com/galanhao/blog-pilot/pkg/blog-core/renderer/helpers.(*Registry).All.func8 (native)
+	at anonymous (&lt;eval&gt;:92:24(401))
 	at apply (native)
 	at anonymous (&lt;eval&gt;:1:10735(24))
 	at &lt;eval&gt;:1:5334(34)
@@ -35,6 +64,22 @@ export_config is not defined
 	at &lt;eval&gt;:11:19(14)
 	at &lt;eval&gt;:12:3(2)
  -->
+  <script>
+var Fluid = {
+  ctx: {
+    hostname: "http://localhost",
+    root: "/",
+    version: "1.0.0"
+  }
+};
+</script>
+  <script src="/js/utils.js"></script>
+  <script src="/js/color-schema.js"></script>
+  <!-- partial error: partial &#34;_partials/plugins/analytics.ejs&#34; not found -->
+
+  
+</head>
+
 
 <body>
   
@@ -230,23 +275,25 @@ import_css is not defined
   </footer>
 
   <!-- Scripts -->
-  <!-- partial error: EJS render: ReferenceError: template.ejs:2
-    1| &lt;%- partial(&#39;_partials/plugins/nprogress.ejs&#39;) %&gt;
- &gt;&gt; 2| &lt;%- js_ex(theme.static_prefix.jquery, &#39;jquery.min.js&#39;) %&gt;
-    3| &lt;%- js_ex(theme.static_prefix.bootstrap, &#39;js/bootstrap.min.js&#39;) %&gt;
-    4| &lt;%- js_ex(theme.static_prefix.internal_js, &#39;events.js&#39;) %&gt;
-    5| &lt;%- js_ex(theme.static_prefix.internal_js, &#39;plugins.js&#39;) %&gt;
+  <!-- partial error: EJS render: ReferenceError: template.ejs:19
+    17| &lt;% } %&gt;
+    18| 
+ &gt;&gt; 19| &lt;% var script_snippets = deduplicate(page.script_snippets) %&gt;
+    20| &lt;% for (var idx = 0; idx &lt; script_snippets.length; idx++) { %&gt;
+    21|   &lt;%- script_snippets[idx] %&gt;
+    22| &lt;% } %&gt;
 
-js_ex is not defined
-ReferenceError: template.ejs:2
-    1| &lt;%- partial(&#39;_partials/plugins/nprogress.ejs&#39;) %&gt;
- &gt;&gt; 2| &lt;%- js_ex(theme.static_prefix.jquery, &#39;jquery.min.js&#39;) %&gt;
-    3| &lt;%- js_ex(theme.static_prefix.bootstrap, &#39;js/bootstrap.min.js&#39;) %&gt;
-    4| &lt;%- js_ex(theme.static_prefix.internal_js, &#39;events.js&#39;) %&gt;
-    5| &lt;%- js_ex(theme.static_prefix.internal_js, &#39;plugins.js&#39;) %&gt;
+deduplicate is not defined
+ReferenceError: template.ejs:19
+    17| &lt;% } %&gt;
+    18| 
+ &gt;&gt; 19| &lt;% var script_snippets = deduplicate(page.script_snippets) %&gt;
+    20| &lt;% for (var idx = 0; idx &lt; script_snippets.length; idx++) { %&gt;
+    21|   &lt;%- script_snippets[idx] %&gt;
+    22| &lt;% } %&gt;
 
-js_ex is not defined
-	at anonymous (&lt;eval&gt;:13:22(40))
+deduplicate is not defined
+	at anonymous (&lt;eval&gt;:55:41(211))
 	at apply (native)
 	at anonymous (&lt;eval&gt;:1:10735(24))
 	at &lt;eval&gt;:1:5334(34)
