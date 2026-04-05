@@ -1,0 +1,75 @@
+
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">PostgreSQL 索引与性能调优</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="postgresql-">PostgreSQL 性能优化</h1>
+<h2 id="gin-">GIN 索引</h2>
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="display:flex;"><span><span style="color:#000;font-weight:bold">CREATE</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">INDEX</span><span style="color:#bbb"> </span>idx_posts_tags<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">ON</span><span style="color:#bbb"> </span>posts<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">USING</span><span style="color:#bbb"> </span>GIN(tags);<span style="color:#bbb">
+</span></span></span></code></pre><h2 id="heading">部分索引</h2>
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="display:flex;"><span><span style="color:#000;font-weight:bold">CREATE</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">INDEX</span><span style="color:#bbb"> </span>idx_active<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">ON</span><span style="color:#bbb"> </span>users(email)<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">WHERE</span><span style="color:#bbb"> </span>deleted_at<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">IS</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">NULL</span>;<span style="color:#bbb">
+</span></span></span></code></pre><h2 id="explain-analyze">EXPLAIN ANALYZE</h2>
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="display:flex;"><span><span style="color:#000;font-weight:bold">EXPLAIN</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">ANALYZE</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">SELECT</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">*</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">FROM</span><span style="color:#bbb"> </span>posts<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">WHERE</span><span style="color:#bbb"> </span>published<span style="color:#000;font-weight:bold">=</span><span style="color:#000;font-weight:bold">true</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">ORDER</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">BY</span><span style="color:#bbb"> </span>created_at<span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">DESC</span><span style="color:#bbb"> </span><span style="color:#000;font-weight:bold">LIMIT</span><span style="color:#bbb"> </span><span style="color:#099">20</span>;<span style="color:#bbb">
+</span></span></span></code></pre>
+                
+              </div>
+            
+            <hr/>
+            <div>
+              
+
+              
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/nats-jetstream-introduction/" title="NATS JetStream：消息队列的现代选择">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">NATS JetStream：消息队列的现代选择</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/go-concurrency-goroutine-channel/" title="Go 并发编程：Goroutine 与 Channel 实战">
+                        <span class="hidden-mobile">Go 并发编程：Goroutine 与 Channel 实战</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+    </div>
+  </div>
+</div>
+
+<!-- partial error: partial &#34;_partials/markdown-plugins&#34; not found -->
+
+

@@ -1,0 +1,98 @@
+
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">NATS JetStream：消息队列的现代选择</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="nats-jetstream">NATS JetStream：消息队列的现代选择</h1>
+<p>NATS JetStream 是 NATS 的持久化消息系统，提供 at-least-once 和 exactly-once 语义。</p>
+<h2 id="heading">基本概念</h2>
+<ul>
+<li><strong>Stream</strong>：消息存储单元，可配置保留策略</li>
+<li><strong>Consumer</strong>：订阅 stream 并消费消息的实体</li>
+<li><strong>Subject</strong>：消息路由的主题</li>
+</ul>
+<h2 id="go-">Go 客户端示例</h2>
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="display:flex;"><span><span style="color:#000;font-weight:bold">import</span> <span style="color:#d14">&#34;github.com/nats-io/nats.go/jetstream&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>nc, _ <span style="color:#000;font-weight:bold">:=</span> nats.<span style="color:#900;font-weight:bold">Connect</span>(nats.DefaultURL)
+</span></span><span style="display:flex;"><span>js, _ <span style="color:#000;font-weight:bold">:=</span> jetstream.<span style="color:#900;font-weight:bold">New</span>(nc)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic">// 创建 stream
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>js.<span style="color:#900;font-weight:bold">CreateStream</span>(ctx, jetstream.StreamConfig{
+</span></span><span style="display:flex;"><span>    Name:     <span style="color:#d14">&#34;EVENTS&#34;</span>,
+</span></span><span style="display:flex;"><span>    Subjects: []<span style="color:#458;font-weight:bold">string</span>{<span style="color:#d14">&#34;events.&gt;&#34;</span>},
+</span></span><span style="display:flex;"><span>})
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic">// 发布消息
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>js.<span style="color:#900;font-weight:bold">Publish</span>(ctx, <span style="color:#d14">&#34;events.user.created&#34;</span>, []<span style="color:#0086b3">byte</span>(<span style="color:#d14">`{&#34;user_id&#34;:&#34;123&#34;}`</span>))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic">// 消费消息
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>cons, _ <span style="color:#000;font-weight:bold">:=</span> js.<span style="color:#900;font-weight:bold">CreateConsumer</span>(ctx, <span style="color:#d14">&#34;EVENTS&#34;</span>, jetstream.ConsumerConfig{
+</span></span><span style="display:flex;"><span>    Durable: <span style="color:#d14">&#34;processor&#34;</span>,
+</span></span><span style="display:flex;"><span>    AckPolicy: jetstream.AckExplicitPolicy,
+</span></span><span style="display:flex;"><span>})
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>msgs, _ <span style="color:#000;font-weight:bold">:=</span> cons.<span style="color:#900;font-weight:bold">Messages</span>()
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">for</span> msg <span style="color:#000;font-weight:bold">:=</span> <span style="color:#000;font-weight:bold">range</span> msgs {
+</span></span><span style="display:flex;"><span>    <span style="color:#998;font-style:italic">// 处理消息
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>    msg.<span style="color:#900;font-weight:bold">Ack</span>()
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre><h2 id="-kafka-">与 Kafka 对比</h2>
+<p>NATS JetStream 部署简单、延迟更低，适合中小规模的事件驱动架构。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              
+
+              
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/postgresql-performance-index/" title="PostgreSQL 索引与性能调优">
+                        <span class="hidden-mobile">PostgreSQL 索引与性能调优</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+    </div>
+  </div>
+</div>
+
+<!-- partial error: partial &#34;_partials/markdown-plugins&#34; not found -->
+
+
