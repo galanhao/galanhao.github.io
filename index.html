@@ -3,7 +3,38 @@
 <!DOCTYPE html>
 <html lang="zh-CN" data-default-color-scheme=auto>
 
-<!-- partial error: partial &#34;_partials/head.ejs&#34; not found -->
+<!-- partial error: EJS render: ReferenceError: template.ejs:48
+    46| 
+    47|   &lt;%- partial(&#39;_partials/css.ejs&#39;) %&gt;
+ &gt;&gt; 48|   &lt;%- export_config() %&gt;
+    49|   &lt;%- js_ex(theme.static_prefix.internal_js, &#39;utils.js&#39;) %&gt;
+    50|   &lt;%- js_ex(theme.static_prefix.internal_js, &#39;color-schema.js&#39;) %&gt;
+    51|   &lt;%- partial(&#39;_partials/plugins/analytics.ejs&#39;) %&gt;
+
+export_config is not defined
+ReferenceError: template.ejs:48
+    46| 
+    47|   &lt;%- partial(&#39;_partials/css.ejs&#39;) %&gt;
+ &gt;&gt; 48|   &lt;%- export_config() %&gt;
+    49|   &lt;%- js_ex(theme.static_prefix.internal_js, &#39;utils.js&#39;) %&gt;
+    50|   &lt;%- js_ex(theme.static_prefix.internal_js, &#39;color-schema.js&#39;) %&gt;
+    51|   &lt;%- partial(&#39;_partials/plugins/analytics.ejs&#39;) %&gt;
+
+export_config is not defined
+	at anonymous (&lt;eval&gt;:95:30(413))
+	at apply (native)
+	at anonymous (&lt;eval&gt;:1:10735(24))
+	at &lt;eval&gt;:1:5334(34)
+	at &lt;eval&gt;:11:19(14)
+	at &lt;eval&gt;:12:3(2)
+	at github.com/galanhao/blog-pilot/pkg/blog-core/renderer/helpers.(*Registry).All.func8 (native)
+	at anonymous (&lt;eval&gt;:22:24(93))
+	at apply (native)
+	at anonymous (&lt;eval&gt;:1:10735(24))
+	at &lt;eval&gt;:1:5334(34)
+	at &lt;eval&gt;:11:19(14)
+	at &lt;eval&gt;:12:3(2)
+ -->
 
 <body>
   
@@ -125,7 +156,14 @@
   </div>
 
 
-<!-- partial error: partial &#34;_partials/paginator&#34; not found -->
+
+  <nav aria-label="navigation">
+    <span class="pagination" id="pagination">
+      
+    </span>
+  </nav>
+
+
 
               </div>
             </div>
@@ -141,7 +179,27 @@
     
 
     
-      <!-- partial error: partial &#34;_partials/search.ejs&#34; not found -->
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
     
 
     
@@ -152,7 +210,36 @@
   </footer>
 
   <!-- Scripts -->
-  <!-- partial error: partial &#34;_partials/scripts.ejs&#34; not found -->
+  <!-- partial error: EJS render: ReferenceError: template.ejs:2
+    1| &lt;%- partial(&#39;_partials/plugins/nprogress.ejs&#39;) %&gt;
+ &gt;&gt; 2| &lt;%- js_ex(theme.static_prefix.jquery, &#39;jquery.min.js&#39;) %&gt;
+    3| &lt;%- js_ex(theme.static_prefix.bootstrap, &#39;js/bootstrap.min.js&#39;) %&gt;
+    4| &lt;%- js_ex(theme.static_prefix.internal_js, &#39;events.js&#39;) %&gt;
+    5| &lt;%- js_ex(theme.static_prefix.internal_js, &#39;plugins.js&#39;) %&gt;
+
+js_ex is not defined
+ReferenceError: template.ejs:2
+    1| &lt;%- partial(&#39;_partials/plugins/nprogress.ejs&#39;) %&gt;
+ &gt;&gt; 2| &lt;%- js_ex(theme.static_prefix.jquery, &#39;jquery.min.js&#39;) %&gt;
+    3| &lt;%- js_ex(theme.static_prefix.bootstrap, &#39;js/bootstrap.min.js&#39;) %&gt;
+    4| &lt;%- js_ex(theme.static_prefix.internal_js, &#39;events.js&#39;) %&gt;
+    5| &lt;%- js_ex(theme.static_prefix.internal_js, &#39;plugins.js&#39;) %&gt;
+
+js_ex is not defined
+	at anonymous (&lt;eval&gt;:13:22(40))
+	at apply (native)
+	at anonymous (&lt;eval&gt;:1:10735(24))
+	at &lt;eval&gt;:1:5334(34)
+	at &lt;eval&gt;:11:19(14)
+	at &lt;eval&gt;:12:3(2)
+	at github.com/galanhao/blog-pilot/pkg/blog-core/renderer/helpers.(*Registry).All.func8 (native)
+	at anonymous (&lt;eval&gt;:85:24(335))
+	at apply (native)
+	at anonymous (&lt;eval&gt;:1:10735(24))
+	at &lt;eval&gt;:1:5334(34)
+	at &lt;eval&gt;:11:19(14)
+	at &lt;eval&gt;:12:3(2)
+ -->
 
   
 
