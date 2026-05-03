@@ -1,0 +1,1 @@
+var posts=["2026/04/05/go-concurrency-goroutine-channel/","2026/04/05/nats-jetstream-introduction/","2026/04/05/postgresql-performance-index/","2026/04/05/postgresql-index-optimization/"];function toRandomPost(){window.open('/'+posts[Math.floor(Math.random() * posts.length)],"_self");};
