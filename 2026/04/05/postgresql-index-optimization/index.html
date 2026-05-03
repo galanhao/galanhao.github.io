@@ -19,25 +19,24 @@
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
   
-    <meta name="description" content="Go 并发编程：Goroutine 与 Channel 实战Go 语言的并发模型基于 CSP 理论，通过 goroutine 和 channel 实现高效并发。 Goroutine 基础1234567891011121314151617181920package mainimport (    &quot;fmt&quot;    &quot;sync&quot;)func worker(id i">
+    <meta name="description" content="PostgreSQL 索引优化实战数据库查询性能往往是系统瓶颈所在，合理使用索引能大幅提升查询速度。 B-Tree 索引B-Tree 是 PostgreSQL 默认索引类型，适用于等值查询和范围查询： 123456789-- 创建复合索引CREATE INDEX idx_posts_site_status ON posts(site_id, status);-- 分析查询计划EXPLAIN ANA">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Go 并发编程：Goroutine 与 Channel 实战">
-<meta property="og:url" content="http://localhost/2026/04/05/go-concurrency-goroutine-channel/index.html">
+<meta property="og:title" content="PostgreSQL 索引优化实战">
+<meta property="og:url" content="http://localhost/2026/04/05/postgresql-index-optimization/index.html">
 <meta property="og:site_name" content="我的技术博客">
-<meta property="og:description" content="Go 并发编程：Goroutine 与 Channel 实战Go 语言的并发模型基于 CSP 理论，通过 goroutine 和 channel 实现高效并发。 Goroutine 基础1234567891011121314151617181920package mainimport (    &quot;fmt&quot;    &quot;sync&quot;)func worker(id i">
+<meta property="og:description" content="PostgreSQL 索引优化实战数据库查询性能往往是系统瓶颈所在，合理使用索引能大幅提升查询速度。 B-Tree 索引B-Tree 是 PostgreSQL 默认索引类型，适用于等值查询和范围查询： 123456789-- 创建复合索引CREATE INDEX idx_posts_site_status ON posts(site_id, status);-- 分析查询计划EXPLAIN ANA">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2026-04-05T02:23:24.000Z">
-<meta property="article:modified_time" content="2026-04-05T02:40:45.000Z">
+<meta property="article:published_time" content="2026-04-05T02:34:55.000Z">
+<meta property="article:modified_time" content="2026-05-03T06:37:57.000Z">
 <meta property="article:author" content="John Doe">
-<meta property="article:tag" content="Go">
-<meta property="article:tag" content="并发">
-<meta property="article:tag" content="goroutine">
-<meta property="article:tag" content="channel">
+<meta property="article:tag" content="PostgreSQL">
+<meta property="article:tag" content="数据库">
+<meta property="article:tag" content="性能优化">
 <meta name="twitter:card" content="summary_large_image">
   
   
   
-  <title>Go 并发编程：Goroutine 与 Channel 实战 - 我的技术博客</title>
+  <title>PostgreSQL 索引优化实战 - 我的技术博客</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -280,7 +279,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="Go 并发编程：Goroutine 与 Channel 实战"></span>
+            <span id="subtitle" data-typed-text="PostgreSQL 索引优化实战"></span>
           
         </div>
 
@@ -291,7 +290,7 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2026-04-05 02:23" pubdate>
+        <time datetime="2026-04-05 02:34" pubdate>
           2026年4月5日 凌晨
         </time>
       </span>
@@ -303,7 +302,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          879 字
+          542 字
         
       </span>
     
@@ -314,7 +313,7 @@
         
         
         
-          8 分钟
+          5 分钟
         
       </span>
     
@@ -353,19 +352,20 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">Go 并发编程：Goroutine 与 Channel 实战</h1>
+            <h1 id="seo-header">PostgreSQL 索引优化实战</h1>
             
             
               <div class="markdown-body">
                 
-                <h1 id="Go-并发编程：Goroutine-与-Channel-实战"><a href="#Go-并发编程：Goroutine-与-Channel-实战" class="headerlink" title="Go 并发编程：Goroutine 与 Channel 实战"></a>Go 并发编程：Goroutine 与 Channel 实战</h1><p>Go 语言的并发模型基于 CSP 理论，通过 goroutine 和 channel 实现高效并发。</p>
-<h2 id="Goroutine-基础"><a href="#Goroutine-基础" class="headerlink" title="Goroutine 基础"></a>Goroutine 基础</h2><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-keyword">package</span> main<br><br><span class="hljs-keyword">import</span> (<br>    <span class="hljs-string">&quot;fmt&quot;</span><br>    <span class="hljs-string">&quot;sync&quot;</span><br>)<br><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">worker</span><span class="hljs-params">(id <span class="hljs-type">int</span>, wg *sync.WaitGroup)</span></span> &#123;<br>    <span class="hljs-keyword">defer</span> wg.Done()<br>    fmt.Printf(<span class="hljs-string">&quot;Worker %d done\n&quot;</span>, id)<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span> &#123;<br>    <span class="hljs-keyword">var</span> wg sync.WaitGroup<br>    <span class="hljs-keyword">for</span> i := <span class="hljs-number">1</span>; i &lt;= <span class="hljs-number">5</span>; i++ &#123;<br>        wg.Add(<span class="hljs-number">1</span>)<br>        <span class="hljs-keyword">go</span> worker(i, &amp;wg)<br>    &#125;<br>    wg.Wait()<br>&#125;<br></code></pre></td></tr></table></figure>
+                <h1 id="PostgreSQL-索引优化实战"><a href="#PostgreSQL-索引优化实战" class="headerlink" title="PostgreSQL 索引优化实战"></a>PostgreSQL 索引优化实战</h1><p>数据库查询性能往往是系统瓶颈所在，合理使用索引能大幅提升查询速度。</p>
+<h2 id="B-Tree-索引"><a href="#B-Tree-索引" class="headerlink" title="B-Tree 索引"></a>B-Tree 索引</h2><p>B-Tree 是 PostgreSQL 默认索引类型，适用于等值查询和范围查询：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-comment">-- 创建复合索引</span><br><span class="hljs-keyword">CREATE</span> INDEX idx_posts_site_status <span class="hljs-keyword">ON</span> posts(site_id, status);<br><br><span class="hljs-comment">-- 分析查询计划</span><br>EXPLAIN ANALYZE<br><span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">FROM</span> posts<br><span class="hljs-keyword">WHERE</span> site_id <span class="hljs-operator">=</span> <span class="hljs-string">&#x27;xxx&#x27;</span> <span class="hljs-keyword">AND</span> status <span class="hljs-operator">=</span> <span class="hljs-string">&#x27;published&#x27;</span><br><span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> created_at <span class="hljs-keyword">DESC</span><br>LIMIT <span class="hljs-number">10</span>;<br></code></pre></td></tr></table></figure>
 
-<h2 id="Channel-通信"><a href="#Channel-通信" class="headerlink" title="Channel 通信"></a>Channel 通信</h2><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">sum</span><span class="hljs-params">(s []<span class="hljs-type">int</span>, c <span class="hljs-keyword">chan</span> <span class="hljs-type">int</span>)</span></span> &#123;<br>    total := <span class="hljs-number">0</span><br>    <span class="hljs-keyword">for</span> _, v := <span class="hljs-keyword">range</span> s &#123;<br>        total += v<br>    &#125;<br>    c &lt;- total<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span> &#123;<br>    s := []<span class="hljs-type">int</span>&#123;<span class="hljs-number">7</span>, <span class="hljs-number">2</span>, <span class="hljs-number">8</span>, <span class="hljs-number">-9</span>, <span class="hljs-number">4</span>, <span class="hljs-number">0</span>&#125;<br>    c := <span class="hljs-built_in">make</span>(<span class="hljs-keyword">chan</span> <span class="hljs-type">int</span>)<br>    <span class="hljs-keyword">go</span> sum(s[:<span class="hljs-built_in">len</span>(s)/<span class="hljs-number">2</span>], c)<br>    <span class="hljs-keyword">go</span> sum(s[<span class="hljs-built_in">len</span>(s)/<span class="hljs-number">2</span>:], c)<br>    x, y := &lt;-c, &lt;-c<br>    fmt.Println(x, y, x+y)<br>&#125;<br></code></pre></td></tr></table></figure>
+<h2 id="部分索引"><a href="#部分索引" class="headerlink" title="部分索引"></a>部分索引</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-comment">-- 只索引已发布的文章</span><br><span class="hljs-keyword">CREATE</span> INDEX idx_posts_published <span class="hljs-keyword">ON</span> posts(site_id, created_at <span class="hljs-keyword">DESC</span>)<br><span class="hljs-keyword">WHERE</span> status <span class="hljs-operator">=</span> <span class="hljs-string">&#x27;published&#x27;</span> <span class="hljs-keyword">AND</span> deleted_at <span class="hljs-keyword">IS</span> <span class="hljs-keyword">NULL</span>;<br></code></pre></td></tr></table></figure>
 
-<h2 id="select-语句"><a href="#select-语句" class="headerlink" title="select 语句"></a>select 语句</h2><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">fibonacci</span><span class="hljs-params">(c, quit <span class="hljs-keyword">chan</span> <span class="hljs-type">int</span>)</span></span> &#123;<br>    x, y := <span class="hljs-number">0</span>, <span class="hljs-number">1</span><br>    <span class="hljs-keyword">for</span> &#123;<br>        <span class="hljs-keyword">select</span> &#123;<br>        <span class="hljs-keyword">case</span> c &lt;- x:<br>            x, y = y, x+y<br>        <span class="hljs-keyword">case</span> &lt;-quit:<br>            fmt.Println(<span class="hljs-string">&quot;quit&quot;</span>)<br>            <span class="hljs-keyword">return</span><br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h2 id="监控慢查询"><a href="#监控慢查询" class="headerlink" title="监控慢查询"></a>监控慢查询</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">SELECT</span> query, mean_exec_time, calls<br><span class="hljs-keyword">FROM</span> pg_stat_statements<br><span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> mean_exec_time <span class="hljs-keyword">DESC</span><br>LIMIT <span class="hljs-number">10</span>;<br></code></pre></td></tr></table></figure>
 
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>Goroutine 轻量高效，channel 提供安全的数据传递机制，select 实现多路复用，是 Go 并发编程的核心三件套。</p>
+<p>合理的索引设计可以让查询从秒级降到毫秒级。</p>
 
                 
               </div>
@@ -384,15 +384,8 @@
     
       <span class="category-chain">
         
-  <a href="/categories/%E6%8A%80%E6%9C%AF/" class="category-chain-item">技术</a>
+  <a href="/categories/%E6%8A%80%E6%9C%AF-%E6%95%B0%E6%8D%AE%E5%BA%93/" class="category-chain-item">技术/数据库</a>
   
-  
-    <span>></span>
-    
-  <a href="/categories/%E6%8A%80%E6%9C%AF/Go/" class="category-chain-item">Go</a>
-  
-  
-
   
 
       </span>
@@ -406,13 +399,11 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/Go/" class="print-no-link">#Go</a>
+        <a href="/tags/PostgreSQL/" class="print-no-link">#PostgreSQL</a>
       
-        <a href="/tags/%E5%B9%B6%E5%8F%91/" class="print-no-link">#并发</a>
+        <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" class="print-no-link">#数据库</a>
       
-        <a href="/tags/goroutine/" class="print-no-link">#goroutine</a>
-      
-        <a href="/tags/channel/" class="print-no-link">#channel</a>
+        <a href="/tags/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" class="print-no-link">#性能优化</a>
       
     </div>
   
@@ -424,8 +415,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>Go 并发编程：Goroutine 与 Channel 实战</div>
-      <div>http://localhost/2026/04/05/go-concurrency-goroutine-channel/</div>
+      <div>PostgreSQL 索引优化实战</div>
+      <div>http://localhost/2026/04/05/postgresql-index-optimization/</div>
     </div>
     <div class="license-meta">
       
@@ -469,9 +460,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2026/04/05/postgresql-index-optimization/" title="PostgreSQL 索引优化实战">
+                      <a href="/2026/04/05/nats-jetstream-introduction/" title="NATS JetStream：消息队列的现代选择">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">PostgreSQL 索引优化实战</span>
+                        <span class="hidden-mobile">NATS JetStream：消息队列的现代选择</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -479,8 +470,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2026/04/05/postgresql-performance-index/" title="PostgreSQL 索引与性能调优">
-                        <span class="hidden-mobile">PostgreSQL 索引与性能调优</span>
+                      <a href="/2026/04/05/go-concurrency-goroutine-channel/" title="Go 并发编程：Goroutine 与 Channel 实战">
+                        <span class="hidden-mobile">Go 并发编程：Goroutine 与 Channel 实战</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
