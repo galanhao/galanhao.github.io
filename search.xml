@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title>PostgreSQL 索引优化实战</title>
+    <url>/2026/04/05/postgresql-index-optimization/</url>
+    <content><![CDATA[<h1 id="PostgreSQL-索引优化实战"><a href="#PostgreSQL-索引优化实战" class="headerlink" title="PostgreSQL 索引优化实战"></a>PostgreSQL 索引优化实战</h1><p>数据库查询性能往往是系统瓶颈所在，合理使用索引能大幅提升查询速度。</p>
+<h2 id="B-Tree-索引"><a href="#B-Tree-索引" class="headerlink" title="B-Tree 索引"></a>B-Tree 索引</h2><p>B-Tree 是 PostgreSQL 默认索引类型，适用于等值查询和范围查询：</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 创建复合索引</span></span><br><span class="line"><span class="keyword">CREATE</span> INDEX idx_posts_site_status <span class="keyword">ON</span> posts(site_id, status);</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 分析查询计划</span></span><br><span class="line">EXPLAIN ANALYZE</span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> posts</span><br><span class="line"><span class="keyword">WHERE</span> site_id <span class="operator">=</span> <span class="string">&#x27;xxx&#x27;</span> <span class="keyword">AND</span> status <span class="operator">=</span> <span class="string">&#x27;published&#x27;</span></span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> created_at <span class="keyword">DESC</span></span><br><span class="line">LIMIT <span class="number">10</span>;</span><br></pre></td></tr></table></figure>
+
+<h2 id="部分索引"><a href="#部分索引" class="headerlink" title="部分索引"></a>部分索引</h2><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 只索引已发布的文章</span></span><br><span class="line"><span class="keyword">CREATE</span> INDEX idx_posts_published <span class="keyword">ON</span> posts(site_id, created_at <span class="keyword">DESC</span>)</span><br><span class="line"><span class="keyword">WHERE</span> status <span class="operator">=</span> <span class="string">&#x27;published&#x27;</span> <span class="keyword">AND</span> deleted_at <span class="keyword">IS</span> <span class="keyword">NULL</span>;</span><br></pre></td></tr></table></figure>
+
+<h2 id="监控慢查询"><a href="#监控慢查询" class="headerlink" title="监控慢查询"></a>监控慢查询</h2><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> query, mean_exec_time, calls</span><br><span class="line"><span class="keyword">FROM</span> pg_stat_statements</span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> mean_exec_time <span class="keyword">DESC</span></span><br><span class="line">LIMIT <span class="number">10</span>;</span><br></pre></td></tr></table></figure>
+
+<p>合理的索引设计可以让查询从秒级降到毫秒级。</p>
+]]></content>
+      <categories>
+        <category>技术/数据库</category>
+      </categories>
+      <tags>
+        <tag>PostgreSQL</tag>
+        <tag>数据库</tag>
+        <tag>性能优化</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Go 并发编程：Goroutine 与 Channel 实战</title>
+    <url>/2026/04/05/go-concurrency-goroutine-channel/</url>
+    <content><![CDATA[<h1 id="Go-并发编程：Goroutine-与-Channel-实战"><a href="#Go-并发编程：Goroutine-与-Channel-实战" class="headerlink" title="Go 并发编程：Goroutine 与 Channel 实战"></a>Go 并发编程：Goroutine 与 Channel 实战</h1><p>Go 语言的并发模型基于 CSP 理论，通过 goroutine 和 channel 实现高效并发。</p>
+<h2 id="Goroutine-基础"><a href="#Goroutine-基础" class="headerlink" title="Goroutine 基础"></a>Goroutine 基础</h2><figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">    <span class="string">&quot;fmt&quot;</span></span><br><span class="line">    <span class="string">&quot;sync&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">worker</span><span class="params">(id <span class="type">int</span>, wg *sync.WaitGroup)</span></span> &#123;</span><br><span class="line">    <span class="keyword">defer</span> wg.Done()</span><br><span class="line">    fmt.Printf(<span class="string">&quot;Worker %d done\n&quot;</span>, id)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="keyword">var</span> wg sync.WaitGroup</span><br><span class="line">    <span class="keyword">for</span> i := <span class="number">1</span>; i &lt;= <span class="number">5</span>; i++ &#123;</span><br><span class="line">        wg.Add(<span class="number">1</span>)</span><br><span class="line">        <span class="keyword">go</span> worker(i, &amp;wg)</span><br><span class="line">    &#125;</span><br><span class="line">    wg.Wait()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Channel-通信"><a href="#Channel-通信" class="headerlink" title="Channel 通信"></a>Channel 通信</h2><figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">sum</span><span class="params">(s []<span class="type">int</span>, c <span class="keyword">chan</span> <span class="type">int</span>)</span></span> &#123;</span><br><span class="line">    total := <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> _, v := <span class="keyword">range</span> s &#123;</span><br><span class="line">        total += v</span><br><span class="line">    &#125;</span><br><span class="line">    c &lt;- total</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    s := []<span class="type">int</span>&#123;<span class="number">7</span>, <span class="number">2</span>, <span class="number">8</span>, <span class="number">-9</span>, <span class="number">4</span>, <span class="number">0</span>&#125;</span><br><span class="line">    c := <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="type">int</span>)</span><br><span class="line">    <span class="keyword">go</span> sum(s[:<span class="built_in">len</span>(s)/<span class="number">2</span>], c)</span><br><span class="line">    <span class="keyword">go</span> sum(s[<span class="built_in">len</span>(s)/<span class="number">2</span>:], c)</span><br><span class="line">    x, y := &lt;-c, &lt;-c</span><br><span class="line">    fmt.Println(x, y, x+y)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="select-语句"><a href="#select-语句" class="headerlink" title="select 语句"></a>select 语句</h2><figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">fibonacci</span><span class="params">(c, quit <span class="keyword">chan</span> <span class="type">int</span>)</span></span> &#123;</span><br><span class="line">    x, y := <span class="number">0</span>, <span class="number">1</span></span><br><span class="line">    <span class="keyword">for</span> &#123;</span><br><span class="line">        <span class="keyword">select</span> &#123;</span><br><span class="line">        <span class="keyword">case</span> c &lt;- x:</span><br><span class="line">            x, y = y, x+y</span><br><span class="line">        <span class="keyword">case</span> &lt;-quit:</span><br><span class="line">            fmt.Println(<span class="string">&quot;quit&quot;</span>)</span><br><span class="line">            <span class="keyword">return</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>Goroutine 轻量高效，channel 提供安全的数据传递机制，select 实现多路复用，是 Go 并发编程的核心三件套。</p>
+]]></content>
+      <categories>
+        <category>技术</category>
+        <category>Go</category>
+      </categories>
+      <tags>
+        <tag>Go</tag>
+        <tag>并发</tag>
+        <tag>goroutine</tag>
+        <tag>channel</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>NATS JetStream：消息队列的现代选择</title>
+    <url>/2026/04/05/nats-jetstream-introduction/</url>
+    <content><![CDATA[<h1 id="NATS-JetStream：消息队列的现代选择"><a href="#NATS-JetStream：消息队列的现代选择" class="headerlink" title="NATS JetStream：消息队列的现代选择"></a>NATS JetStream：消息队列的现代选择</h1><p>NATS JetStream 是 NATS 的持久化消息系统，提供 at-least-once 和 exactly-once 语义。</p>
+<h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h2><ul>
+<li><strong>Stream</strong>：消息存储单元，可配置保留策略</li>
+<li><strong>Consumer</strong>：订阅 stream 并消费消息的实体</li>
+<li><strong>Subject</strong>：消息路由的主题</li>
+</ul>
+<h2 id="Go-客户端示例"><a href="#Go-客户端示例" class="headerlink" title="Go 客户端示例"></a>Go 客户端示例</h2><figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">&quot;github.com/nats-io/nats.go/jetstream&quot;</span></span><br><span class="line"></span><br><span class="line">nc, _ := nats.Connect(nats.DefaultURL)</span><br><span class="line">js, _ := jetstream.New(nc)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 创建 stream</span></span><br><span class="line">js.CreateStream(ctx, jetstream.StreamConfig&#123;</span><br><span class="line">    Name:     <span class="string">&quot;EVENTS&quot;</span>,</span><br><span class="line">    Subjects: []<span class="type">string</span>&#123;<span class="string">&quot;events.&gt;&quot;</span>&#125;,</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 发布消息</span></span><br><span class="line">js.Publish(ctx, <span class="string">&quot;events.user.created&quot;</span>, []<span class="type">byte</span>(<span class="string">`&#123;&quot;user_id&quot;:&quot;123&quot;&#125;`</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment">// 消费消息</span></span><br><span class="line">cons, _ := js.CreateConsumer(ctx, <span class="string">&quot;EVENTS&quot;</span>, jetstream.ConsumerConfig&#123;</span><br><span class="line">    Durable: <span class="string">&quot;processor&quot;</span>,</span><br><span class="line">    AckPolicy: jetstream.AckExplicitPolicy,</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">msgs, _ := cons.Messages()</span><br><span class="line"><span class="keyword">for</span> msg := <span class="keyword">range</span> msgs &#123;</span><br><span class="line">    <span class="comment">// 处理消息</span></span><br><span class="line">    msg.Ack()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="与-Kafka-对比"><a href="#与-Kafka-对比" class="headerlink" title="与 Kafka 对比"></a>与 Kafka 对比</h2><p>NATS JetStream 部署简单、延迟更低，适合中小规模的事件驱动架构。</p>
+]]></content>
+      <categories>
+        <category>技术</category>
+        <category>架构</category>
+      </categories>
+      <tags>
+        <tag>NATS</tag>
+        <tag>消息队列</tag>
+        <tag>微服务</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>PostgreSQL 索引与性能调优</title>
+    <url>/2026/04/05/postgresql-performance-index/</url>
+    <content><![CDATA[<h1 id="PostgreSQL-性能优化"><a href="#PostgreSQL-性能优化" class="headerlink" title="PostgreSQL 性能优化"></a>PostgreSQL 性能优化</h1><h2 id="GIN-索引"><a href="#GIN-索引" class="headerlink" title="GIN 索引"></a>GIN 索引</h2><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> INDEX idx_posts_tags <span class="keyword">ON</span> posts <span class="keyword">USING</span> GIN(tags);</span><br></pre></td></tr></table></figure>
+
+<h2 id="部分索引"><a href="#部分索引" class="headerlink" title="部分索引"></a>部分索引</h2><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> INDEX idx_active <span class="keyword">ON</span> users(email) <span class="keyword">WHERE</span> deleted_at <span class="keyword">IS</span> <span class="keyword">NULL</span>;</span><br></pre></td></tr></table></figure>
+
+<h2 id="EXPLAIN-ANALYZE"><a href="#EXPLAIN-ANALYZE" class="headerlink" title="EXPLAIN ANALYZE"></a>EXPLAIN ANALYZE</h2><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">EXPLAIN ANALYZE <span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> posts <span class="keyword">WHERE</span> published<span class="operator">=</span><span class="literal">true</span> <span class="keyword">ORDER</span> <span class="keyword">BY</span> created_at <span class="keyword">DESC</span> LIMIT <span class="number">20</span>;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>技术</category>
+        <category>数据库</category>
+      </categories>
+      <tags>
+        <tag>PostgreSQL</tag>
+        <tag>数据库</tag>
+        <tag>性能优化</tag>
+      </tags>
+  </entry>
+</search>
