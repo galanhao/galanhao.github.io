@@ -1,46 +1,477 @@
-//- <h1>if you see this, you may not installed hexo-renderer-pug.  pls run npm i hexo-renderer-pug --save to install.</h1>
-extends includes/layout.pug
+<!DOCTYPE HTML>
+<html>
+<head >
+  <meta charset="utf-8">
+  
+  <title>我的技术博客</title>
 
-block content
-  include ./includes/mixins/post-ui.pug
-  #recent-posts.recent-posts
-    if theme.hometop.enable
-      if theme.hometop.creativities.enable
-        .hometoptext3
-          i.fas.fa-hand.shake-hand-icon
-          .text #[=config.subtitle]
-          a.randompostbtn(onclick='toRandomPost()',title='随机文章') 
-            i.fas.fa-shuffle 
-            | 随机文章
-          .skills-style-group
-            .tags-group-all
-              .tags-group-wrapper
-                each i in site.data.creativity
-                  - const evenNum = i.creativity_list.filter((x, index) => index % 2 === 0);
-                  - const oddNum = i.creativity_list.filter((x, index) => index % 2 === 1);
-                  each item, index in i.creativity_list
-                    if ((index+1 <= evenNum.length) && (index+1 <= oddNum.length))
-                      .tags-group-icon-pair
-                        .tags-group-icon(style=`background: ${evenNum[index].color}`)
-                          img.no-lightbox(title=evenNum[index].name, src=evenNum[index].icon)
-                        .tags-group-icon(style=`background: ${oddNum[index].color}`)
-                          img.no-lightbox(title=oddNum[index].name, src=oddNum[index].icon)
-      if theme.hometop.featured_article.enable
-        .hometoptext
-          .text 
-            i.fas.fa-star.icon
-            | 站长推荐
-          include includes/hometop.pug
-      if theme.hometop.show_tag_categroy.enable
-        .hometoptext
-          .text 
-            i.fas.fa-tags.icon
-            | 分类标签
-          include includes/tagsBar.pug
-          include includes/linksBar.pug
-    .hometoptext2
-      .text 
-        i.fas.fa-book.icon
-        | 全部文章
-    +postUI
-    include includes/pagination.pug
+  
+  <meta name="author" content="John Doe">
+  
+
+  
+
+  
+
+  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  
+
+  <meta property="og:site_name" content="我的技术博客"/>
+
+  
+  <meta property="og:image" content="/favicon.ico"/>
+  
+
+  <link href="/favicon.ico" rel="icon">
+  
+  <link rel="alternate" href="/atom.xml" title="我的技术博客" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/base/bootstrap.min.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+<div class="blog">
+  <div class="content">
+
+    
+
+    <header style="background-image: url('/images/blog-bg.jpg');">
+
+
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="navbar-header page-scroll">
+          <button type="button" id="tglBtn" class="navbar-toggle">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/">John Doe</a>
+        </div>
+        <div id="bosenyblog-navbar">
+          <div class="navbar-collapse" id="bs-example-navbar-collapse-6">
+            <ul class="nav navbar-nav navbar-right">
+            
+              <li><a href="/">主页</a></li>
+            
+              <li><a href="/archives">归档</a></li>
+            
+              <li><a href="/about">关于</a></li>
+            
+              <li><a href="/tags">标签</a></li>
+            
+              <li><a href="/categories">分类</a></li>
+            
+            </ul>
+          </div>
+        </div>
+
+    </div>
+ </nav>
+ <div class="gotop-btn">
+ </div>
+</header>
+
+        
+        <div class="container ">
+          <div class="row">
+            <main class="site-main posts-loop    col-lg-8 col-lg-offset-1
+                    col-md-8 col-md-offset-1
+                    col-sm-12
+                    col-xs-12">
+            
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/2026/04/05/nats-jetstream-introduction/"><span>NATS JetStream：消息队列的现代选择</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2026/04/05/nats-jetstream-introduction/" rel="bookmark">
+        <time class="entry-date published" datetime="2026-04-05T09:01:20.000Z">
+          2026-04-05
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <h1 id="NATS-JetStream：消息队列的现代选择"><a href="#NATS-JetStream：消息队列的现代选择" class="headerlink" title="NATS JetStream：消息队列的现代选择"></a>NATS JetStream：消息队列的现代选择</h1><p>NATS JetStream 是 NATS 的持久化消息系统，提供 at-least-once 和 exactly-once 语义。</p>
+<h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h2><ul>
+<li><strong>Stream</strong>：消息存储单元，可配置保留策略</li>
+<li><strong>Consumer</strong>：订阅 stream 并消费消息的实体</li>
+<li><strong>Subject</strong>：消息路由的主题</li>
+</ul>
+<h2 id="Go-客户端示例"><a href="#Go-客户端示例" class="headerlink" title="Go 客户端示例"></a>Go 客户端示例</h2><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">&quot;github.com/nats-io/nats.go/jetstream&quot;</span></span><br><span class="line"></span><br><span class="line">nc, _ := nats.Connect(nats.DefaultURL)</span><br><span class="line">js, _ := jetstream.New(nc)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 创建 stream</span></span><br><span class="line">js.CreateStream(ctx, jetstream.StreamConfig&#123;</span><br><span class="line">    Name:     <span class="string">&quot;EVENTS&quot;</span>,</span><br><span class="line">    Subjects: []<span class="type">string</span>&#123;<span class="string">&quot;events.&gt;&quot;</span>&#125;,</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 发布消息</span></span><br><span class="line">js.Publish(ctx, <span class="string">&quot;events.user.created&quot;</span>, []<span class="type">byte</span>(<span class="string">`&#123;&quot;user_id&quot;:&quot;123&quot;&#125;`</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment">// 消费消息</span></span><br><span class="line">cons, _ := js.CreateConsumer(ctx, <span class="string">&quot;EVENTS&quot;</span>, jetstream.ConsumerConfig&#123;</span><br><span class="line">    Durable: <span class="string">&quot;processor&quot;</span>,</span><br><span class="line">    AckPolicy: jetstream.AckExplicitPolicy,</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">msgs, _ := cons.Messages()</span><br><span class="line"><span class="keyword">for</span> msg := <span class="keyword">range</span> msgs &#123;</span><br><span class="line">    <span class="comment">// 处理消息</span></span><br><span class="line">    msg.Ack()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="与-Kafka-对比"><a href="#与-Kafka-对比" class="headerlink" title="与 Kafka 对比"></a>与 Kafka 对比</h2><p>NATS JetStream 部署简单、延迟更低，适合中小规模的事件驱动架构。</p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/技术/">技术</a>, <a href="/categories/技术/架构/">架构</a>
+    </span>
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/tags/NATS/">NATS</a><a href="/tags/消息队列/">消息队列</a><a href="/tags/微服务/">微服务</a>
+    </span>
+    
+
+    </div>
+
+    
+    <div class="article-meta pull-right">
+      <span>
+        <i class="icon-comments"></i>
+        <span>
+          <a href="/2026/04/05/nats-jetstream-introduction/#comment">评论</a>
+        </span>
+      </span>
+    </div>
+    
+  </div>
+  
+    
+    <h3 class="article-read"><a href="/2026/04/05/nats-jetstream-introduction/"><span>点击阅读</span></a></h3>
+    
+  
+</article>
+
+
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/2026/04/05/postgresql-index-optimization/"><span>PostgreSQL 索引优化实战</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2026/04/05/postgresql-index-optimization/" rel="bookmark">
+        <time class="entry-date published" datetime="2026-04-05T02:34:55.000Z">
+          2026-04-05
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <h1 id="PostgreSQL-索引优化实战"><a href="#PostgreSQL-索引优化实战" class="headerlink" title="PostgreSQL 索引优化实战"></a>PostgreSQL 索引优化实战</h1><p>数据库查询性能往往是系统瓶颈所在，合理使用索引能大幅提升查询速度。</p>
+<h2 id="B-Tree-索引"><a href="#B-Tree-索引" class="headerlink" title="B-Tree 索引"></a>B-Tree 索引</h2><p>B-Tree 是 PostgreSQL 默认索引类型，适用于等值查询和范围查询：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 创建复合索引</span></span><br><span class="line"><span class="keyword">CREATE</span> INDEX idx_posts_site_status <span class="keyword">ON</span> posts(site_id, status);</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 分析查询计划</span></span><br><span class="line">EXPLAIN ANALYZE</span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> posts</span><br><span class="line"><span class="keyword">WHERE</span> site_id <span class="operator">=</span> <span class="string">&#x27;xxx&#x27;</span> <span class="keyword">AND</span> status <span class="operator">=</span> <span class="string">&#x27;published&#x27;</span></span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> created_at <span class="keyword">DESC</span></span><br><span class="line">LIMIT <span class="number">10</span>;</span><br></pre></td></tr></table></figure>
+
+<h2 id="部分索引"><a href="#部分索引" class="headerlink" title="部分索引"></a>部分索引</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 只索引已发布的文章</span></span><br><span class="line"><span class="keyword">CREATE</span> INDEX idx_posts_published <span class="keyword">ON</span> posts(site_id, created_at <span class="keyword">DESC</span>)</span><br><span class="line"><span class="keyword">WHERE</span> status <span class="operator">=</span> <span class="string">&#x27;published&#x27;</span> <span class="keyword">AND</span> deleted_at <span class="keyword">IS</span> <span class="keyword">NULL</span>;</span><br></pre></td></tr></table></figure>
+
+<h2 id="监控慢查询"><a href="#监控慢查询" class="headerlink" title="监控慢查询"></a>监控慢查询</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> query, mean_exec_time, calls</span><br><span class="line"><span class="keyword">FROM</span> pg_stat_statements</span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> mean_exec_time <span class="keyword">DESC</span></span><br><span class="line">LIMIT <span class="number">10</span>;</span><br></pre></td></tr></table></figure>
+
+<p>合理的索引设计可以让查询从秒级降到毫秒级。</p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/技术-数据库/">技术/数据库</a>
+    </span>
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/tags/PostgreSQL/">PostgreSQL</a><a href="/tags/数据库/">数据库</a><a href="/tags/性能优化/">性能优化</a>
+    </span>
+    
+
+    </div>
+
+    
+    <div class="article-meta pull-right">
+      <span>
+        <i class="icon-comments"></i>
+        <span>
+          <a href="/2026/04/05/postgresql-index-optimization/#comment">评论</a>
+        </span>
+      </span>
+    </div>
+    
+  </div>
+  
+    
+    <h3 class="article-read"><a href="/2026/04/05/postgresql-index-optimization/"><span>点击阅读</span></a></h3>
+    
+  
+</article>
+
+
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/2026/04/05/go-concurrency-goroutine-channel/"><span>Go 并发编程：Goroutine 与 Channel 实战</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2026/04/05/go-concurrency-goroutine-channel/" rel="bookmark">
+        <time class="entry-date published" datetime="2026-04-05T02:23:24.000Z">
+          2026-04-05
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <h1 id="Go-并发编程：Goroutine-与-Channel-实战"><a href="#Go-并发编程：Goroutine-与-Channel-实战" class="headerlink" title="Go 并发编程：Goroutine 与 Channel 实战"></a>Go 并发编程：Goroutine 与 Channel 实战</h1><p>Go 语言的并发模型基于 CSP 理论，通过 goroutine 和 channel 实现高效并发。</p>
+<h2 id="Goroutine-基础"><a href="#Goroutine-基础" class="headerlink" title="Goroutine 基础"></a>Goroutine 基础</h2><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">    <span class="string">&quot;fmt&quot;</span></span><br><span class="line">    <span class="string">&quot;sync&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">worker</span><span class="params">(id <span class="type">int</span>, wg *sync.WaitGroup)</span></span> &#123;</span><br><span class="line">    <span class="keyword">defer</span> wg.Done()</span><br><span class="line">    fmt.Printf(<span class="string">&quot;Worker %d done\n&quot;</span>, id)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="keyword">var</span> wg sync.WaitGroup</span><br><span class="line">    <span class="keyword">for</span> i := <span class="number">1</span>; i &lt;= <span class="number">5</span>; i++ &#123;</span><br><span class="line">        wg.Add(<span class="number">1</span>)</span><br><span class="line">        <span class="keyword">go</span> worker(i, &amp;wg)</span><br><span class="line">    &#125;</span><br><span class="line">    wg.Wait()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Channel-通信"><a href="#Channel-通信" class="headerlink" title="Channel 通信"></a>Channel 通信</h2><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">sum</span><span class="params">(s []<span class="type">int</span>, c <span class="keyword">chan</span> <span class="type">int</span>)</span></span> &#123;</span><br><span class="line">    total := <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> _, v := <span class="keyword">range</span> s &#123;</span><br><span class="line">        total += v</span><br><span class="line">    &#125;</span><br><span class="line">    c &lt;- total</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    s := []<span class="type">int</span>&#123;<span class="number">7</span>, <span class="number">2</span>, <span class="number">8</span>, <span class="number">-9</span>, <span class="number">4</span>, <span class="number">0</span>&#125;</span><br><span class="line">    c := <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="type">int</span>)</span><br><span class="line">    <span class="keyword">go</span> sum(s[:<span class="built_in">len</span>(s)/<span class="number">2</span>], c)</span><br><span class="line">    <span class="keyword">go</span> sum(s[<span class="built_in">len</span>(s)/<span class="number">2</span>:], c)</span><br><span class="line">    x, y := &lt;-c, &lt;-c</span><br><span class="line">    fmt.Println(x, y, x+y)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="select-语句"><a href="#select-语句" class="headerlink" title="select 语句"></a>select 语句</h2><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">fibonacci</span><span class="params">(c, quit <span class="keyword">chan</span> <span class="type">int</span>)</span></span> &#123;</span><br><span class="line">    x, y := <span class="number">0</span>, <span class="number">1</span></span><br><span class="line">    <span class="keyword">for</span> &#123;</span><br><span class="line">        <span class="keyword">select</span> &#123;</span><br><span class="line">        <span class="keyword">case</span> c &lt;- x:</span><br><span class="line">            x, y = y, x+y</span><br><span class="line">        <span class="keyword">case</span> &lt;-quit:</span><br><span class="line">            fmt.Println(<span class="string">&quot;quit&quot;</span>)</span><br><span class="line">            <span class="keyword">return</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>Goroutine 轻量高效，channel 提供安全的数据传递机制，select 实现多路复用，是 Go 并发编程的核心三件套。</p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/技术/">技术</a>, <a href="/categories/技术/Go/">Go</a>
+    </span>
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/tags/Go/">Go</a><a href="/tags/并发/">并发</a><a href="/tags/goroutine/">goroutine</a><a href="/tags/channel/">channel</a>
+    </span>
+    
+
+    </div>
+
+    
+    <div class="article-meta pull-right">
+      <span>
+        <i class="icon-comments"></i>
+        <span>
+          <a href="/2026/04/05/go-concurrency-goroutine-channel/#comment">评论</a>
+        </span>
+      </span>
+    </div>
+    
+  </div>
+  
+    
+    <h3 class="article-read"><a href="/2026/04/05/go-concurrency-goroutine-channel/"><span>点击阅读</span></a></h3>
+    
+  
+</article>
+
+
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/2026/04/05/postgresql-performance-index/"><span>PostgreSQL 索引与性能调优</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2026/04/05/postgresql-performance-index/" rel="bookmark">
+        <time class="entry-date published" datetime="2026-04-05T02:23:24.000Z">
+          2026-04-05
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <h1 id="PostgreSQL-性能优化"><a href="#PostgreSQL-性能优化" class="headerlink" title="PostgreSQL 性能优化"></a>PostgreSQL 性能优化</h1><h2 id="GIN-索引"><a href="#GIN-索引" class="headerlink" title="GIN 索引"></a>GIN 索引</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> INDEX idx_posts_tags <span class="keyword">ON</span> posts <span class="keyword">USING</span> GIN(tags);</span><br></pre></td></tr></table></figure>
+
+<h2 id="部分索引"><a href="#部分索引" class="headerlink" title="部分索引"></a>部分索引</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> INDEX idx_active <span class="keyword">ON</span> users(email) <span class="keyword">WHERE</span> deleted_at <span class="keyword">IS</span> <span class="keyword">NULL</span>;</span><br></pre></td></tr></table></figure>
+
+<h2 id="EXPLAIN-ANALYZE"><a href="#EXPLAIN-ANALYZE" class="headerlink" title="EXPLAIN ANALYZE"></a>EXPLAIN ANALYZE</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">EXPLAIN ANALYZE <span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> posts <span class="keyword">WHERE</span> published<span class="operator">=</span><span class="literal">true</span> <span class="keyword">ORDER</span> <span class="keyword">BY</span> created_at <span class="keyword">DESC</span> LIMIT <span class="number">20</span>;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/技术/">技术</a>, <a href="/categories/技术/数据库/">数据库</a>
+    </span>
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/tags/PostgreSQL/">PostgreSQL</a><a href="/tags/数据库/">数据库</a><a href="/tags/性能优化/">性能优化</a>
+    </span>
+    
+
+    </div>
+
+    
+    <div class="article-meta pull-right">
+      <span>
+        <i class="icon-comments"></i>
+        <span>
+          <a href="/2026/04/05/postgresql-performance-index/#comment">评论</a>
+        </span>
+      </span>
+    </div>
+    
+  </div>
+  
+    
+    <h3 class="article-read"><a href="/2026/04/05/postgresql-performance-index/"><span>点击阅读</span></a></h3>
+    
+  
+</article>
+
+
+
+
+
+<nav class="pagination">
+  
+  
+</nav>
+            </main>
+            <div class="sidebar
+                    col-lg-3 col-lg-offset-0
+                    col-md-3 col-md-offset-0
+                    col-sm-12
+                    col-xs-12
+                    sidebar-container
+                ">
+                <div class="sidebar-container">
+
+    <div class="categories-container" style="margin-top:40px;">
+        <p>归档:（正在开发...）</p>
+            
+                <a href="/categories/%E6%8A%80%E6%9C%AF/Go/" title="Go" rel="1">Go</a>
+            
+                <a href="/categories/%E6%8A%80%E6%9C%AF/" title="技术" rel="3">技术</a>
+            
+                <a href="/categories/%E6%8A%80%E6%9C%AF-%E6%95%B0%E6%8D%AE%E5%BA%93/" title="技术/数据库" rel="1">技术/数据库</a>
+            
+                <a href="/categories/%E6%8A%80%E6%9C%AF/%E6%95%B0%E6%8D%AE%E5%BA%93/" title="数据库" rel="1">数据库</a>
+            
+                <a href="/categories/%E6%8A%80%E6%9C%AF/%E6%9E%B6%E6%9E%84/" title="架构" rel="1">架构</a>
+            
+    </div>
+
+
+</div>
+            </div>
+          </div>
+        </div>
+        
+
+
+
+
+
+    <footer class="site-footer">
+  <p class="site-info">
+    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
+    Theme by <a href="https://github.com/Boseny" target="_blank">Lap</a>
+    </br>
+    
+      
+        &copy; 2026 John Doe
+      
+    
+  </p>
+</footer>
+    
+  </div>
+
+</div>
+<script src="https://cdn.bootcss.com/vue/2.5.13/vue.min.js"></script>
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script src="/js/index.js"></script>
+</body>
+</html>
